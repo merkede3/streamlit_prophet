@@ -58,13 +58,12 @@ report: List[Dict[str, Any]] = []
 
 # Info
 with st.expander(
-    "Streamlit app to build a time series forecasting model in a few clicks", expanded=False
+    "Hamzahs forecasting model to annihilate Demand Forecasting, DF, in just a few clicks", expanded=False
 ):
     st.write(readme["app"]["app_intro"])
     st.write("")
 st.write("")
 st.sidebar.image(load_image("logo.png"), use_column_width=True)
-display_links(readme["links"]["repo"], readme["links"]["article"])
 
 
 st.sidebar.title("1. Data")
