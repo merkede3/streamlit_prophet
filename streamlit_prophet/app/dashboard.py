@@ -52,6 +52,16 @@ config, instructions, readme = load_config(
     "config_streamlit.toml", "config_instructions.toml", "config_readme.toml"
 )
 
+
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 # Initialization
 dates: Dict[Any, Any] = dict()
 report: List[Dict[str, Any]] = []
