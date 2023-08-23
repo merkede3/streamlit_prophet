@@ -68,7 +68,7 @@ report: List[Dict[str, Any]] = []
 
 # Info
 with st.expander(
-    "Hamzahs forecasting model better than demand forecasting including Rory, Francis, Sophie, in just a few clicks", expanded=False
+    "Hamzahs forecasting model .. what a genius he is", expanded=False
 ):
     st.write(readme["app"]["app_intro"])
     st.write("")
