@@ -141,7 +141,7 @@ evaluate = st.sidebar.checkbox(
 if evaluate:
 
     # Split
-    with st.sidebar.expander("Split", expanded=True):
+    with st.sidebar.expander("Split", expanded=False):
         use_cv = st.checkbox(
             "Perform cross-validation", value=False, help=readme["tooltips"]["choice_cv"]
         )
