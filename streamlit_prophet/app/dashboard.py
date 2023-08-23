@@ -96,15 +96,15 @@ with st.sidebar.expander("Filtering", expanded=False):
     print_removed_cols(cols_to_drop)
 
 # Resampling
-#with st.sidebar.expander("Resampling", expanded=False):
-#    resampling = input_resampling(df, readme)
-#    df = format_datetime(df, resampling)
-#    df = resample_df(df, resampling)
-#    check_dataset_size(df, config)
+with st.sidebar.expander("Resampling", expanded=False):
+    resampling = input_resampling(df, readme)
+    df = format_datetime(df, resampling)
+    df = resample_df(df, resampling)
+    check_dataset_size(df, config)
 
 # Cleaning
 with st.sidebar.expander("Cleaning", expanded=False):
-    cleaning = input_cleaning(readme, config)
+    cleaning = input_cleaning(resampling, readme, config)
     df = clean_df(df, cleaning)
     check_dataset_size(df, config)
 
@@ -116,7 +116,7 @@ with st.sidebar.expander("Prior scale", expanded=False):
 
 # Seasonalities
 with st.sidebar.expander("Seasonalities", expanded=False):
-    params = input_seasonality_params(config, params, readme)
+    params = input_seasonality_params(config, params, resampling, readme)
 
 # Holidays
 with st.sidebar.expander("Holidays"):
@@ -145,9 +145,9 @@ if evaluate:
         use_cv = st.checkbox(
             "Perform cross-validation", value=False, help=readme["tooltips"]["choice_cv"]
         )
-        dates = input_train_dates(df, use_cv, config, dates)
+        dates = input_train_dates(df, use_cv, config, resampling, dates)
         if use_cv:
-            dates = input_cv(dates, config, readme)
+            dates = input_cv(dates, resampling, config, readme)
             datasets = get_train_set(df, dates, datasets)
         else:
             dates = input_val_dates(df, dates, config)
@@ -172,7 +172,7 @@ make_future_forecast = st.sidebar.checkbox(
 )
 if make_future_forecast:
     with st.sidebar.expander("Horizon", expanded=False):
-        dates = input_forecast_dates(df, dates, config, readme)
+        dates = input_forecast_dates(df, dates, resampling, config, readme)
     with st.sidebar.expander("Regressors", expanded=False):
         datasets = input_future_regressors(
             datasets, dates, params, dimensions, load_options, date_col
@@ -198,6 +198,7 @@ if st.checkbox(
         make_future_forecast,
         evaluate,
         cleaning,
+        resampling,
         params,
         dates,
         datasets,
@@ -221,7 +222,7 @@ if st.checkbox(
             f'# 2. Evaluation on {"CV" if use_cv else ""} {eval["set"].lower()} set{"s" if use_cv else ""}'
         )
         report = plot_performance(
-            use_cv, target_col, datasets, forecasts, dates, eval, config, readme, report
+            use_cv, target_col, datasets, forecasts, dates, eval, resampling, config, readme, report
         )
 
     if evaluate | make_future_forecast:
@@ -237,6 +238,7 @@ if st.checkbox(
             models,
             forecasts,
             cleaning,
+            resampling,
             config,
             readme,
             df,
@@ -256,6 +258,7 @@ if st.checkbox(
             make_future_forecast,
             evaluate,
             cleaning,
+            resampling,
             params,
             dates,
             date_col,
